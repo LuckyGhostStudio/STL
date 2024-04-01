@@ -1,2 +1,1 @@
-# STL
-Sample Template Library based on C++.
+# Sample Template Library based on C++.
