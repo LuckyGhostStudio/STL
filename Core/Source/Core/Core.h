@@ -2,5 +2,5 @@
 
 namespace STL
 {
-	void PrintSTL();
+	
 }
