@@ -9,6 +9,12 @@
 
 namespace STL
 {
+    enum class SerializeMode
+    {
+        All,
+        Value
+    };
+
     template <typename T>
     class TreeNode
     {
@@ -25,7 +31,7 @@ namespace STL
 
         ~TreeNode()
         {
-            // 释放子节点内存  
+            // 释放子节点内存
             for (TreeNode<T>* child : m_Children){
                 delete child;
             }
@@ -62,13 +68,49 @@ namespace STL
         /// 添加子节点
         /// </summary>
         /// <param name="child">待添加节点</param>
-        void AddChild(TreeNode<T>* child)
+        bool AddChild(TreeNode<T>* child)
         {
             if (child != nullptr) {
                 child->SetParent(this);                                 // 设置子节点的父节点为当前节点
                 child->SetLevel(child->GetParent()->GetLevel() + 1);    // 设置节点层级
                 m_Children.push_back(child);                            // 添加到子节点列表
+
+                return true;
             }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 删除子节点
+        /// </summary>
+        /// <param name="child">待删除子节点</param>
+        bool RemoveChild(TreeNode<T>* child)
+        {
+            if (child != nullptr) {
+                auto it = std::find(m_Children.begin(), m_Children.end(), child);
+                if (it != m_Children.end()) {
+                    m_Children.erase(it);
+                    child = nullptr;
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 删除当前节点
+        /// </summary>
+        void Remove()
+        {
+            // 释放子节点内存
+            for (TreeNode<T>* child : m_Children) {
+                delete child;
+            }
+
+            m_Parent->RemoveChild(this);   // 从父节点的子列表删除该节点
         }
 
         /// <summary>
@@ -88,10 +130,15 @@ namespace STL
             return 0;
         }
 
-        std::string ToString() const
+        std::string ToString(SerializeMode mode = SerializeMode::Value) const
         {
             std::stringstream ss;
-            ss <<  m_Value << "[" << GetLevel() << "]" << "(" << GetIndex() << ")";
+            ss << m_Value;
+            
+            if (mode == SerializeMode::All) {
+                ss << "[" << GetLevel() << "]" << "(" << GetIndex() << ")";
+            }
+
             return ss.str();
         }
     };
@@ -147,19 +194,22 @@ namespace STL
 
                 VisitNode(node);    // 访问节点
 
-                // 将未访问过的子节点入栈  
-                for (TreeNode<T>* child : node->GetChildren()) {
-                    if (visited.find(child) == visited.end()) {
-                        stk.push(child);
-                        visited.insert(child);
+                // 逆序
+                for (int i = node->GetChildCount() - 1; i >= 0; --i) {
+                    // 未访问过的节点入栈
+                    if (visited.find(node->GetChild(i)) == visited.end()) {
+                        stk.push(node->GetChild(i));
+                        visited.insert(node->GetChild(i));
                     }
                 }
             }
         }
     public:
         Tree(TreeNode<T>* root) : m_Root(root) {}
+        Tree(T value) : m_Root(new TreeNode<T>(value)) {}
 
         TreeNode<T>* GetRoot() const { return m_Root; }
+
         void SetRoot(TreeNode<T>* root)
         {
             m_Root = root;
@@ -216,7 +266,42 @@ namespace STL
             return false;
         }
 
-        std::string ToString()
+        /// <summary>
+        /// 添加子节点到当前节点
+        /// </summary>
+        /// <param name="current">当前节点</param>
+        /// <param name="value">待添加节点值</param>
+        /// <returns></returns>
+        bool AddNode(TreeNode<T>* current, T value)
+        {
+            if (FindNode(current)) {
+                current->AddChild(new TreeNode<T>(value));
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 删除结点
+        /// </summary>
+        /// <param name="node">待删除结点</param>
+        /// <returns></returns>
+        bool RemoveNode(TreeNode<T>* node)
+        {
+            if (!node) return false;
+
+            if (FindNode(node)) {
+                node->Remove();
+                node = nullptr;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        std::string ToString(SerializeMode mode = SerializeMode::Value)
         {
             std::stringstream ss;
 
@@ -230,7 +315,7 @@ namespace STL
                 for (uint32_t i = 0; i < level; i++) {
                     ss << "  ";
                 }
-                ss << node->ToString() << "\n";    // 输出节点  
+                ss << node->ToString(mode) << "\n";    // 输出节点  
             });
 
             return ss.str();

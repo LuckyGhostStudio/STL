@@ -1,34 +1,42 @@
 #include <Core.h>
-#include <Tree.h>
-
 #include <iostream>
 
 int main()
 {
-    STL::Tree<std::string> tree = STL::Tree<std::string>(new STL::TreeNode<std::string>("Root"));
+    STL::Tree<std::string> scene = STL::Tree<std::string>("Scene");
 
-    tree.AddNode(tree.GetRoot(), new STL::TreeNode<std::string>("Node"));
-    tree.AddNode(tree.GetRoot(), new STL::TreeNode<std::string>("Node"));
-    tree.AddNode(tree.GetRoot(), new STL::TreeNode<std::string>("Node"));
+    scene.AddNode(scene.GetRoot(), "Main Camera");
+    scene.AddNode(scene.GetRoot(), "Light");
+    scene.AddNode(scene.GetRoot(), "Player");
+    scene.AddNode(scene.GetRoot(), "Enemy");
+    scene.AddNode(scene.GetRoot(), "Environment");
 
-    tree.AddNode(tree.GetRoot()->GetChild(0), new STL::TreeNode<std::string>("Node"));
-    tree.AddNode(tree.GetRoot()->GetChild(0), new STL::TreeNode<std::string>("Node"));
-    tree.AddNode(tree.GetRoot()->GetChild(0), new STL::TreeNode<std::string>("Node"));
-    tree.AddNode(tree.GetRoot()->GetChild(0)->GetChild(0), new STL::TreeNode<std::string>("Node"));
-    tree.AddNode(tree.GetRoot()->GetChild(0), new STL::TreeNode<std::string>("Node"));
-    tree.AddNode(tree.GetRoot()->GetChild(1), new STL::TreeNode<std::string>("Node"));
-    tree.AddNode(tree.GetRoot()->GetChild(1), new STL::TreeNode<std::string>("Node"));
-    tree.AddNode(tree.GetRoot()->GetChild(1), new STL::TreeNode<std::string>("Node"));
-    tree.AddNode(tree.GetRoot()->GetChild(2), new STL::TreeNode<std::string>("Node"));
-    tree.AddNode(tree.GetRoot()->GetChild(2), new STL::TreeNode<std::string>("Node"));
+    scene.AddNode(scene.GetRoot()->GetChild(2), "Body");
+    scene.AddNode(scene.GetRoot()->GetChild(2)->GetChild(0), "Mesh");
+    scene.AddNode(scene.GetRoot()->GetChild(2)->GetChild(0), "Collider");
+    scene.AddNode(scene.GetRoot()->GetChild(2), "Weapon");
+    scene.AddNode(scene.GetRoot()->GetChild(2)->GetChild(1), "Muzzle");
 
-    std::cout << tree.ToString() << std::endl;
+    scene.AddNode(scene.GetRoot()->GetChild(3), "Body");
+    scene.AddNode(scene.GetRoot()->GetChild(3)->GetChild(0), "Mesh");
+    scene.AddNode(scene.GetRoot()->GetChild(3)->GetChild(0), "Collider");
 
-    tree.SetRoot(tree.GetRoot()->GetChild(0));
-    std::cout << tree.ToString() << std::endl;
+    scene.AddNode(scene.GetRoot()->GetChild(4), "Background");
+    scene.AddNode(scene.GetRoot()->GetChild(4), "Plantform");
+    scene.AddNode(scene.GetRoot()->GetChild(4), "Foreground");
+    scene.AddNode(scene.GetRoot()->GetChild(4)->GetChild(0), "Tree");
+    scene.AddNode(scene.GetRoot()->GetChild(4)->GetChild(0), "Tree");
+    scene.AddNode(scene.GetRoot()->GetChild(4)->GetChild(1), "Water");
+    scene.AddNode(scene.GetRoot()->GetChild(4)->GetChild(1), "Door");
+
+    std::cout << scene.ToString() << std::endl;
+
+    scene.RemoveNode(scene.GetRoot()->GetChild(4));
+
+    std::cout << scene.ToString() << std::endl;
     
-    tree.Clear();
-    std::cout << tree.ToString() << std::endl;
+    scene.Clear();
+    std::cout << scene.ToString() << std::endl;
 
     return 0;
 }

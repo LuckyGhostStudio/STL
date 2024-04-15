@@ -1,6 +1,3 @@
 #pragma once
 
-namespace STL
-{
-	
-}
+#include "Tree.h"
