@@ -1,7 +1,7 @@
 #include <Core.h>
 #include <iostream>
 
-int main()
+void TreeTest()
 {
     STL::Tree<std::string> scene = STL::Tree<std::string>("Scene");
 
@@ -34,9 +34,51 @@ int main()
     scene.RemoveNode(scene.GetRoot()->GetChild(4));
 
     std::cout << scene.ToString() << std::endl;
-    
+
     scene.Clear();
     std::cout << scene.ToString() << std::endl;
+}
+
+void VectorTest()
+{
+    STL::List<int> arr(10);
+
+    for (uint32_t i = 0; i < 10; i++) {
+        arr.Insert(i, i * 10);
+    }
+
+    std::cout << "Size: " << arr.GetSize() << std::endl;
+    std::cout << "Capacity: " << arr.GetCapacity() << std::endl;
+    std::cout << arr.ToString() << std::endl;
+
+    arr.Add(520);
+    std::cout << arr.ToString() << std::endl;
+
+    arr[3] = 1314;
+    std::cout << arr.ToString() << std::endl;
+
+    arr.RemoveAt(1);
+    std::cout << arr.ToString() << std::endl;
+
+    arr[arr.Find(1314)] = 90;
+    std::cout << arr.ToString() << std::endl;
+
+    arr.RemoveLast();
+
+    std::cout << "Size: " << arr.GetSize() << std::endl;
+    std::cout << "Capacity: " << arr.GetCapacity() << std::endl;
+
+    std::cout << arr[111] << std::endl;
+}
+
+int main()
+{
+    try {
+        VectorTest();
+    }
+    catch (const std::out_of_range& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+    }
 
     return 0;
 }
