@@ -41,11 +41,7 @@ void TreeTest()
 
 void VectorTest()
 {
-    STL::List<int> arr(10);
-
-    for (uint32_t i = 0; i < 10; i++) {
-        arr.Insert(i, i * 10);
-    }
+    STL::List<int> arr = { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90 };
 
     std::cout << "Size: " << arr.GetSize() << std::endl;
     std::cout << "Capacity: " << arr.GetCapacity() << std::endl;

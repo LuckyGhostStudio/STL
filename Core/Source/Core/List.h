@@ -3,11 +3,12 @@
 #include <string>
 #include <sstream>
 #include <stdexcept>
+#include <initializer_list>
 
 namespace STL
 {
 	/// <summary>
-	/// 顺序表
+	/// 列表：顺序表
 	/// </summary>
 	/// <typeparam name="T">元素类型</typeparam>
 	template<typename T>
@@ -47,6 +48,13 @@ namespace STL
 			m_Data = new T[m_Capacity];
 		}
 
+		List(const std::initializer_list<T>& initList) : m_Size(initList.size()), m_Capacity(initList.size())
+		{
+			m_Data = new T[m_Capacity];
+
+			std::copy(initList.begin(), initList.end(), m_Data);	// 复制初始化列表的值到 m_Data
+		}
+
 		~List()
 		{
 			if (m_Data) {
@@ -74,7 +82,7 @@ namespace STL
 		/// </summary>
 		/// <param name="index">插入的位置</param>
 		/// <param name="value">插入的元素</param>
-		void Insert(int index, const T& value)
+		void Insert(uint32_t index, const T& value)
 		{
 			if (index > m_Size) {
 				throw std::out_of_range("Index is out of range.");
@@ -116,7 +124,7 @@ namespace STL
 		/// <returns>元素位置</returns>
 		int Find(const T& value)
 		{
-			for (int i = 0; i < m_Size; i++) {
+			for (uint32_t i = 0; i < m_Size; i++) {
 				if (m_Data[i] == value) {
 					return i;
 				}
