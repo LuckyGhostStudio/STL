@@ -84,7 +84,7 @@ namespace STL
 		/// <param name="value">插入的元素</param>
 		void Insert(uint32_t index, const T& value)
 		{
-			if (index > m_Size) {
+			if (index < 0 || index > m_Size) {
 				throw std::out_of_range("Index is out of range.");
 			}
 
@@ -108,13 +108,7 @@ namespace STL
 		/// <param name="value">待添加的元素</param>
 		void Add(const T& value)
 		{
-			// 列表已满
-			if (m_Size == m_Capacity) {
-				InCreaseCapacity();		// 扩容
-			}
-
-			m_Data[m_Size] = value;		// 添加新元素到末尾
-			m_Size++;
+			Insert(m_Size, value);
 		}
 
 		/// <summary>
@@ -138,7 +132,7 @@ namespace STL
 		/// <param name="index">待移除元素的位置</param>
 		void RemoveAt(uint32_t index)
 		{
-			if (index >= m_Size) {
+			if (index < 0 || index >= m_Size) {
 				throw std::out_of_range("Index is out of range.");
 			}
 
@@ -146,7 +140,7 @@ namespace STL
 				m_Data[i] = m_Data[i + 1];
 			}
 
-			m_Data[m_Size - 1].~T();	// 移除最后一个元素
+			m_Data[m_Size - 1].~T();	// 移除最后一个没用的元素
 			m_Size--;
 		}
 
@@ -155,16 +149,12 @@ namespace STL
 		/// </summary>
 		void RemoveLast()
 		{
-			if (m_Size == 0) {
-				throw std::out_of_range("Index is out of range.");
-			}
-
-			m_Data[m_Size - 1].~T();	// 移除最后一个元素
-			m_Size--;
+			RemoveAt(m_Size - 1);
 		}
 
-		T& operator[](uint32_t index) {
-			if (index >= m_Size) {
+		T& operator[](uint32_t index)
+		{
+			if (index < 0 || index >= m_Size) {
 				throw std::out_of_range("Index is out of range.");
 			}
 			return m_Data[index];
@@ -172,7 +162,7 @@ namespace STL
 
 		const T& operator[](uint32_t index) const
 		{
-			if (index >= m_Size) {
+			if (index < 0 || index >= m_Size) {
 				throw std::out_of_range("Index is out of range.");
 			}
 			return m_Data[index];

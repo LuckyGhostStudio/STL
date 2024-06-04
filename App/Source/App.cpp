@@ -39,7 +39,7 @@ void TreeTest()
     std::cout << scene.ToString() << std::endl;
 }
 
-void VectorTest()
+void ListTest()
 {
     STL::List<int> arr = { 0, 10, 20, 30, 40, 50, 60, 70, 80, 90 };
 
@@ -47,6 +47,7 @@ void VectorTest()
     std::cout << "Capacity: " << arr.GetCapacity() << std::endl;
     std::cout << arr.ToString() << std::endl;
 
+    arr.Add(520);
     arr.Add(520);
     std::cout << arr.ToString() << std::endl;
 
@@ -60,6 +61,7 @@ void VectorTest()
     std::cout << arr.ToString() << std::endl;
 
     arr.RemoveLast();
+    std::cout << arr.ToString() << std::endl;
 
     std::cout << "Size: " << arr.GetSize() << std::endl;
     std::cout << "Capacity: " << arr.GetCapacity() << std::endl;
@@ -67,10 +69,46 @@ void VectorTest()
     std::cout << arr[111] << std::endl;
 }
 
+void LinkedListTest()
+{
+    STL::LinkedList<int> list;
+
+    std::cout << list.GetSize() << " " << list.ToString() << std::endl;
+
+    list.Insert(0, 10);
+    list.Insert(0, 11);
+    list.Insert(0, 12);
+    list.Insert(0, 13);
+    list.Insert(0, 14);
+
+    std::cout << list.GetSize() << " " << list.ToString() << std::endl;
+
+    list.RemoveAt(2);
+    std::cout << list.GetSize() << " " << list.ToString() << std::endl;
+
+    list[0] = 520;
+    list[1] = 1314;
+    std::cout << list.GetSize() << " " << list.ToString() << std::endl;
+
+    list[list.Find(1314)] = 8848;
+    std::cout << list.GetSize() << " " << list.ToString() << std::endl;
+
+    list.Add(999);
+    list.Add(999);
+    list.Add(999);
+    std::cout << list.GetSize() << " " << list.ToString() << std::endl;
+
+    list.RemoveLast();
+    std::cout << list.GetSize() << " " << list.ToString() << std::endl;
+
+    list[list.Find(-51)] = 8848;
+    std::cout << list.GetSize() << " " << list.ToString() << std::endl;
+}
+
 int main()
 {
     try {
-        VectorTest();
+        LinkedListTest();
     }
     catch (const std::out_of_range& e) {
         std::cerr << "Exception: " << e.what() << std::endl;
