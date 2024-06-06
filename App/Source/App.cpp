@@ -1,5 +1,6 @@
 #include <Core.h>
 #include <iostream>
+#include <stack>
 
 void TreeTest()
 {
@@ -105,10 +106,31 @@ void LinkedListTest()
     std::cout << list.GetSize() << " " << list.ToString() << std::endl;
 }
 
+void StackTest()
+{
+    STL::Stack<int, STL::List<int>> stack;      // µ•¡¥±Ì’ª
+    
+    stack.Push(10);
+    std::cout << "Size: " << stack.GetSize() << " Top: " << stack.Top() << std::endl;
+
+    stack.Push(12);
+    std::cout << "Size: " << stack.GetSize() << " Top: " << stack.Top() << std::endl;
+    
+    stack.Push(13);
+    std::cout << "Size: " << stack.GetSize() << " Top: " << stack.Top() << std::endl;
+
+    stack.Pop();
+    stack.Pop();
+    std::cout << "Size: " << stack.GetSize() << " Top: " << stack.Top() << std::endl;
+    
+    stack.Pop();
+    std::cout << "Size: " << stack.GetSize() << " Top: " << stack.Top() << std::endl;
+}
+
 int main()
 {
     try {
-        ListTest();
+        StackTest();
     }
     catch (const std::out_of_range& e) {
         std::cerr << "Exception: " << e.what() << std::endl;
