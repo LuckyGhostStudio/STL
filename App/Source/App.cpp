@@ -108,7 +108,7 @@ void LinkedListTest()
 int main()
 {
     try {
-        LinkedListTest();
+        ListTest();
     }
     catch (const std::out_of_range& e) {
         std::cerr << "Exception: " << e.what() << std::endl;

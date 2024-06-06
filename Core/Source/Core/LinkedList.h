@@ -36,7 +36,9 @@ namespace STL
 		LinkedList() : m_Head(nullptr), m_Size(0) {}
 		~LinkedList();
 
-		uint32_t GetSize() const;
+		bool IsEmpty() const { return m_Size == 0; }
+
+		uint32_t GetSize() const { return m_Size; }
 
 		/// <summary>
 		/// ≤Â»Î‘™Àÿ
@@ -86,12 +88,6 @@ namespace STL
 
 			delete temp;
 		}
-	}
-
-	template<typename T>
-	inline uint32_t LinkedList<T>::GetSize() const
-	{
-		return m_Size;
 	}
 
 	template<typename T>
