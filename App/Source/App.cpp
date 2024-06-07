@@ -1,6 +1,6 @@
 #include <Core.h>
 #include <iostream>
-#include <stack>
+#include <queue>
 
 void TreeTest()
 {
@@ -127,10 +127,33 @@ void StackTest()
     std::cout << "Size: " << stack.GetSize() << " Top: " << stack.Top() << std::endl;
 }
 
+void QueueTest()
+{
+    STL::Queue<int> queue;
+
+    queue.Push(10);
+    std::cout << "Size: " << queue.GetSize() << " Front: " << queue.GetFront() << std::endl;
+    
+    queue.Push(11);
+    std::cout << "Size: " << queue.GetSize() << " Front: " << queue.GetFront() << std::endl;
+
+    queue.Push(12);
+    std::cout << "Size: " << queue.GetSize() << " Front: " << queue.GetFront() << std::endl;
+    
+    queue.Pop();
+    std::cout << "Size: " << queue.GetSize() << " Front: " << queue.GetFront() << std::endl;
+
+    queue.Pop();
+    std::cout << "Size: " << queue.GetSize() << " Front: " << queue.GetFront() << std::endl;
+
+    queue.Pop();
+    std::cout << "Size: " << queue.GetSize() << " Front: " << queue.GetFront() << std::endl;
+}
+
 int main()
 {
     try {
-        StackTest();
+        QueueTest();
     }
     catch (const std::out_of_range& e) {
         std::cerr << "Exception: " << e.what() << std::endl;
